@@ -32,11 +32,13 @@ import {
   Globe,
 } from "lucide-react";
 import PageLayout from "../components/PageLayout";
-
-const PRIMARY_COLOR = "#61C5C3";
+import { useThemeColors } from "../../../utils/useThemeColors";
 
 export default function TradePage() {
   const navigate = useNavigate();
+  const themeColors = useThemeColors();
+  const PRIMARY_COLOR = themeColors.teal;
+
   const [search, setSearch] = useState("");
   const [viewType, setViewType] = useState("grid");
   const [sortBy, setSortBy] = useState("trending");
@@ -453,45 +455,45 @@ export default function TradePage() {
                   }}
                 >
                   <Box
-                    onClick={() => setViewType("grid")}
-                    sx={{
-                      p: 0.8,
-                      borderRadius: "6px",
-                      backgroundColor: viewType === "grid" ? "var(--bg-white)" : "transparent",
-                      border: viewType === "grid" ? `1px solid var(--border-color)` : "none",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.2s",
-                      "&:hover": {
-                        backgroundColor: "var(--hover-bg)",
-                      },
-                    }}
-                    title="Grid View"
-                  >
-                    <Grid3x3 size={18} color={viewType === "grid" ? PRIMARY_COLOR : "var(--text-muted)"} />
-                  </Box>
+              onClick={() => setViewType("grid")}
+              sx={{
+                p: 0.8,
+                borderRadius: "6px",
+                backgroundColor: viewType === "grid" ? `${PRIMARY_COLOR}15` : "transparent",
+                border: viewType === "grid" ? `1px solid ${PRIMARY_COLOR}` : "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
+                "&:hover": {
+                  backgroundColor: `${PRIMARY_COLOR}10`,
+                },
+              }}
+              title="Grid View"
+            >
+              <Grid3x3 size={18} color={viewType === "grid" ? PRIMARY_COLOR : "var(--text-muted)"} />
+            </Box>
                   <Box
-                    onClick={() => setViewType("list")}
-                    sx={{
-                      p: 0.8,
-                      borderRadius: "6px",
-                      backgroundColor: viewType === "list" ? "var(--bg-white)" : "transparent",
-                      border: viewType === "list" ? `1px solid var(--border-color)` : "none",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.2s",
-                      "&:hover": {
-                        backgroundColor: "var(--hover-bg)",
-                      },
-                    }}
-                    title="List View"
-                  >
-                    <List size={18} color={viewType === "list" ? PRIMARY_COLOR : "var(--text-muted)"} />
-                  </Box>
+              onClick={() => setViewType("list")}
+              sx={{
+                p: 0.8,
+                borderRadius: "6px",
+                backgroundColor: viewType === "list" ? `${PRIMARY_COLOR}15` : "transparent",
+                border: viewType === "list" ? `1px solid ${PRIMARY_COLOR}` : "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
+                "&:hover": {
+                  backgroundColor: `${PRIMARY_COLOR}10`,
+                },
+              }}
+              title="List View"
+            >
+              <List size={18} color={viewType === "list" ? PRIMARY_COLOR : "var(--text-muted)"} />
+            </Box>
                 </Box>
               </Box>
             </Box>
@@ -567,9 +569,9 @@ export default function TradePage() {
                     transition: "all 0.2s ease",
                     border: `2px solid ${PRIMARY_COLOR}`,
                     "&:hover": {
-                      backgroundColor: "#50ada8",
+                      filter: "brightness(0.95)",
                       transform: "translateY(-2px)",
-                      boxShadow: "0 6px 16px rgba(97, 197, 195, 0.2)",
+                      boxShadow: `0 6px 16px ${PRIMARY_COLOR}33`,
                     },
                     "&:active": {
                       transform: "translateY(0)",
@@ -596,14 +598,14 @@ export default function TradePage() {
             width: 52,
             height: 52,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #61C5C3, #3aa7a4)",
+            backgroundColor: PRIMARY_COLOR,
             color: "#fff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
             zIndex: 1300,
-            boxShadow: "0 10px 24px rgba(58, 167, 164, 0.45)",
+            boxShadow: `0 10px 24px ${PRIMARY_COLOR}44`,
             transition: "transform 0.25s ease, box-shadow 0.25s ease",
             animation: "floatPulse 2.1s ease-in-out infinite",
             "@keyframes floatPulse": {
@@ -613,7 +615,7 @@ export default function TradePage() {
             },
             "&:hover": {
               transform: "translateY(-3px) scale(1.06)",
-              boxShadow: "0 14px 30px rgba(58, 167, 164, 0.5)",
+              boxShadow: `0 14px 30px ${PRIMARY_COLOR}55`,
             },
           }}
         >
@@ -730,7 +732,7 @@ function TradeCard({ trade, viewType = "grid" }) {
                 alignItems: "center",
                 gap: 0.5,
                 padding: "6px 12px",
-                backgroundColor: "#e6f7f6",
+                backgroundColor: `${PRIMARY_COLOR}15`,
                 borderRadius: "6px",
                 fontSize: "0.85rem",
                 fontWeight: 600,
@@ -1024,7 +1026,7 @@ function TradeCard({ trade, viewType = "grid" }) {
             alignItems: "center",
             gap: 0.6,
             padding: "6px 12px",
-            backgroundColor: "#e6f7f6",
+            backgroundColor: `${PRIMARY_COLOR}15`,
             borderRadius: "6px",
             fontSize: "0.85rem",
             fontWeight: 700,

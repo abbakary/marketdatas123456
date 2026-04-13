@@ -10,8 +10,7 @@ import {
   CheckCircle, Star,
 } from "lucide-react";
 import PageLayout from "../components/PageLayout";
-
-const PRIMARY = "#61C5C3";
+import { useThemeColors } from "../../../utils/useThemeColors";
 
 const budgetDatasets = [
   { id: 1, title: "Global Climate Data 2024", author: "GreenData Inc.", category: "Agriculture and Environment", usability: "10.0", updated: "Updated 2 days ago", files: "3 Files (CSV)", size: "2.5 GB", downloads: "1,245 downloads", votes: 48, image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80", price: 299, rating: 4.8, license: "CC BY 4.0", tier: "Standard" },
@@ -25,14 +24,17 @@ const budgetDatasets = [
 ];
 
 const pricingTiers = [
-  { name: "Basic", price: "$200/month", color: "#22c55e", bg: "#f0fdf4", border: "#bbf7d0", features: ["Email notifications only", "Single user license", "Basic support", "30-day access"] },
-  { name: "Standard", price: "$5000/month", color: "#3b82f6", bg: "#eff6ff", border: "#bfdbfe", features: ["Up to 5 users", "Multiple formats", "Priority support", "Unlimited access", "API access"] },
-  { name: "Premium", price: "$15000/month", color: "#8b5cf6", bg: "#f5f3ff", border: "#ddd6fe", features: ["Up to 20 users", "All formats", "Dedicated support", "Unlimited access", "API + webhooks", "Custom exports"] },
-  { name: "Enterprise", price: "$3000/month", color: "#f59e0b", bg: "#fffbeb", border: "#fde68a", features: ["Unlimited users", "All formats", "24/7 support", "Unlimited access", "Full API suite", "Custom integrations", "SLA guarantee"] },
+  { name: "Basic", price: "$200/month", color: "#22c55e", features: ["Email notifications only", "Single user license", "Basic support", "30-day access"] },
+  { name: "Standard", price: "$5000/month", color: "#3b82f6", features: ["Up to 5 users", "Multiple formats", "Priority support", "Unlimited access", "API access"] },
+  { name: "Premium", price: "$15000/month", color: "#8b5cf6", features: ["Up to 20 users", "All formats", "Dedicated support", "Unlimited access", "API + webhooks", "Custom exports"] },
+  { name: "Enterprise", price: "$3000/month", color: "#f59e0b", features: ["Unlimited users", "All formats", "24/7 support", "Unlimited access", "Full API suite", "Custom integrations", "SLA guarantee"] },
 ];
 
 export default function BudgetPage() {
   const navigate = useNavigate();
+  const themeColors = useThemeColors();
+  const PRIMARY = themeColors.teal;
+
   const [search, setSearch] = useState("");
   const [budgetRange, setBudgetRange] = useState([0, 1000]);
   const [selectedTier, setSelectedTier] = useState("All");
@@ -72,7 +74,7 @@ export default function BudgetPage() {
 
           {/* Cart Summary */}
           {cart.length > 0 && (
-            <Card sx={{ borderRadius: 2, border: `2px solid ${PRIMARY}`, boxShadow: "none", mb: 3, backgroundColor: "#e6f7f6" }}>
+            <Card sx={{ borderRadius: 2, border: `2px solid ${PRIMARY}`, boxShadow: "none", mb: 3, backgroundColor: `${PRIMARY}15` }}>
               <CardContent sx={{ p: 2, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 2 }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
                   <ShoppingCart size={20} color={PRIMARY} />
@@ -133,7 +135,7 @@ export default function BudgetPage() {
                   <Typography sx={{ fontWeight: 700, color: "var(--text-dark)", mb: 1.5 }}>Subscription Plans</Typography>
                   <Typography sx={{ fontSize: "0.75rem", color: "var(--text-muted)", mb: 2 }}>Choose a plan that works for you</Typography>
                   {pricingTiers.map(tier => (
-                    <Box key={tier.name} sx={{ mb: 2, p: 1.5, borderRadius: 1.5, backgroundColor: tier.bg, border: `1px solid ${tier.border}` }}>
+                    <Box key={tier.name} sx={{ mb: 2, p: 1.5, borderRadius: 1.5, backgroundColor: `${tier.color}15`, border: `1px solid ${tier.color}40` }}>
                       <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.8, alignItems: "center" }}>
                         <Typography sx={{ fontWeight: 700, color: tier.color, fontSize: "0.9rem" }}>{tier.name}</Typography>
                         <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, color: tier.color }}>{tier.price}</Typography>
@@ -141,7 +143,7 @@ export default function BudgetPage() {
                       {tier.features.slice(0, 3).map(f => (
                         <Box key={f} sx={{ display: "flex", alignItems: "center", gap: 0.8, mb: 0.3 }}>
                           <CheckCircle size={11} color={tier.color} />
-                          <Typography sx={{ fontSize: "0.75rem", color: "#374151" }}>{f}</Typography>
+                          <Typography sx={{ fontSize: "0.75rem", color: "var(--text-dark)" }}>{f}</Typography>
                         </Box>
                       ))}
                     </Box>
