@@ -175,13 +175,13 @@ export default function DashboardLayout({ children, role }) {
       }}
         className="lg-sidebar"
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72, padding: '0 20px', borderBottom: `1px solid ${colors.sidebarBorder}` }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 72, padding: '0 20px', borderBottom: `1px solid ${colors.sidebarBorder}`, backgroundColor: colors.sidebarBg, transition: 'all 0.3s ease' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', transition: 'transform 0.2s', '&:hover': { transform: 'scale(1.05)' } }}>
               <img src={logo} alt="DaliData Logo" style={{ height: 36, width: 'auto', objectFit: 'contain', display: 'block' }} />
             </Link>
           </div>
-          <button onClick={() => setSidebarOpen(false)} style={{ backgroundColor: colors.bgSecondary, border: `1px solid ${colors.border}`, color: colors.textMuted, cursor: 'pointer', padding: 6, borderRadius: 10, display: 'flex', transition: 'all 0.2s' }}
+          <button onClick={() => setSidebarOpen(false)} style={{ backgroundColor: colors.card, border: `1px solid ${colors.border}`, color: colors.textMuted, cursor: 'pointer', padding: 6, borderRadius: 10, display: 'flex', transition: 'all 0.2s' }}
             onMouseEnter={e => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.borderColor = '#fee2e2'; }}
             onMouseLeave={e => { e.currentTarget.style.color = colors.textMuted; e.currentTarget.style.borderColor = colors.border; }}
           >
@@ -227,15 +227,15 @@ export default function DashboardLayout({ children, role }) {
         </nav>
 
         {/* Sidebar Footer - User Account */}
-        <div style={{ padding: 20, borderTop: `1px solid ${colors.sidebarBorder}`, backgroundColor: colors.bgSecondary, borderBottomRightRadius: 0, transition: 'all 0.3s ease' }}>
+        <div style={{ padding: 20, borderTop: `1px solid ${colors.sidebarBorder}`, backgroundColor: themeColors.isDarkMode ? '#1a1f3a' : '#f8fafc', borderBottomRightRadius: 0, transition: 'all 0.3s ease' }}>
            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 20 }}>
-              <div style={{ 
-                 width: 48, height: 48, borderRadius: 16, 
-                 background: currentRoleStyle.primary, color: '#fff', 
-                 display: 'flex', alignItems: 'center', justifyContent: 'center', 
+              <div style={{
+                 width: 48, height: 48, borderRadius: 16,
+                 background: currentRoleStyle.primary, color: '#fff',
+                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                  fontWeight: 800, fontSize: 18,
                  boxShadow: `0 8px 16px ${currentRoleStyle.primary}30`,
-                 border: '3px solid #fff'
+                 border: `3px solid ${themeColors.isDarkMode ? '#1E293B' : '#fff'}`
               }}>
                  {user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase() : role[0].toUpperCase()}
               </div>
@@ -257,12 +257,12 @@ export default function DashboardLayout({ children, role }) {
                 onClick={() => { setSidebarOpen(false); navigate('/profile'); }}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 12, width: '100%', padding: '10px 14px',
-                  backgroundColor: colors.card, border: `1px solid ${colors.border}`, cursor: 'pointer', fontSize: 13,
-                  color: colors.textMuted, borderRadius: 12, fontWeight: 600, transition: 'all 0.2s',
+                  backgroundColor: themeColors.isDarkMode ? '#2d3748' : '#f1f5f9', border: `1px solid ${colors.border}`, cursor: 'pointer', fontSize: 13,
+                  color: colors.text, borderRadius: 12, fontWeight: 600, transition: 'all 0.2s',
                   boxShadow: themeColors.isDarkMode ? '0 2px 4px rgba(0,0,0,0.2)' : '0 2px 4px rgba(0,0,0,0.02)'
                 }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = currentRoleStyle.primary; e.currentTarget.style.color = currentRoleStyle.primary; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = colors.border; e.currentTarget.style.color = colors.textMuted; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = colors.border; e.currentTarget.style.color = colors.text; }}
               >
                 <User size={18} /> Profile Details
               </button>
@@ -307,11 +307,11 @@ export default function DashboardLayout({ children, role }) {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
               {/* Search */}
-              <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.12)', borderRadius: 14, padding: '10px 20px', gap: 12, border: '1px solid rgba(255,255,255,0.1)', transition: 'all 0.2s', '&:focus-within': { background: 'rgba(255,255,255,0.2)', borderColor: 'rgba(255,255,255,0.3)' } }}>
+              <div style={{ display: 'flex', alignItems: 'center', background: 'rgba(255,255,255,0.12)', borderRadius: 14, padding: '10px 20px', gap: 12, border: '1px solid rgba(255,255,255,0.1)', transition: 'all 0.2s' }}>
                 <Search size={18} color="rgba(255,255,255,0.9)" />
                 <input
                   placeholder="Search dashboard..."
-                  style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: 14, outline: 'none', width: 200, fontWeight: 500 }}
+                  style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: 14, outline: 'none', width: 200, fontWeight: 500, '::placeholder': { color: 'rgba(255,255,255,0.6)' } }}
                 />
               </div>
 
