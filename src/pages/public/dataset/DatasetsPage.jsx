@@ -937,7 +937,7 @@ export default function DatasetsPage() {
                     <Typography
                       sx={{
                         fontSize: "1rem",
-                        color: "#6b7280",
+                        color: themeColors.textMuted,
                         fontWeight: 500,
                       }}
                     >
@@ -1358,21 +1358,23 @@ function DatasetCard({ dataset, viewType = "grid" }) {
         sx={{
           px: 2.5,
           py: 1.5,
-          borderTop: "1px solid #e5e7eb",
+          borderTop: `1px solid ${themeColors.border}`,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: "#f9fafb",
+          backgroundColor: themeColors.bgSecondary,
+          transition: "all 0.3s ease",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            border: "1px solid #d1d5db",
+            border: `1px solid ${themeColors.border}`,
             borderRadius: "6px",
             overflow: "hidden",
-            backgroundColor: "#fff",
+            backgroundColor: themeColors.card,
+            transition: "all 0.3s ease",
           }}
         >
           <Box
@@ -1381,7 +1383,8 @@ function DatasetCard({ dataset, viewType = "grid" }) {
               py: 0.4,
               display: "flex",
               alignItems: "center",
-              borderRight: "1px solid #d1d5db",
+              borderRight: `1px solid ${themeColors.border}`,
+              color: themeColors.text,
             }}
           >
             <ChevronUp size={14} />
@@ -1392,6 +1395,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: 700,
+                color: themeColors.text,
               }}
             >
               {dataset.votes}
@@ -1405,11 +1409,12 @@ function DatasetCard({ dataset, viewType = "grid" }) {
             alignItems: "center",
             gap: 0.6,
             padding: "6px 12px",
-            backgroundColor: "#e6f7f6",
+            backgroundColor: themeColors.isDarkMode ? "rgba(97, 197, 195, 0.15)" : "#e6f7f6",
             borderRadius: "6px",
             fontSize: "0.85rem",
             fontWeight: 700,
             color: PRIMARY_COLOR,
+            transition: "all 0.3s ease",
           }}
         >
           <span>${dataset.price} USD</span>
