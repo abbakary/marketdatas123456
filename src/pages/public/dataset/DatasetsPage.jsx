@@ -31,10 +31,13 @@ import {
 import PageLayout from "../components/PageLayout";
 import CategorySidebar, { categoriesData } from "../components/CategorySidebar";
 import FiltersPanel from "../components/FiltersPanel";
+import { useThemeColors } from "../../../utils/useThemeColors";
 
 const PRIMARY_COLOR = "#61C5C3";
 
 export default function DatasetsPage() {
+  const themeColors = useThemeColors();
+
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isFiltersPanelOpen, setIsFiltersPanelOpen] = useState(false);
@@ -348,9 +351,10 @@ export default function DatasetsPage() {
       <Box
         sx={{
           minHeight: "100vh",
-          backgroundColor: "#f8f9fb",
+          backgroundColor: themeColors.bg,
           py: 4,
           position: "relative",
+          transition: "background-color 0.3s ease",
         }}
       >
         <Box
@@ -393,8 +397,9 @@ export default function DatasetsPage() {
                   onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
                   variant="outlined"
                   sx={{
-                    backgroundColor: "#fff",
+                    backgroundColor: themeColors.card,
                     borderRadius: "10px",
+                    transition: "background-color 0.3s ease",
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "10px",
                       height: 50,
@@ -404,7 +409,7 @@ export default function DatasetsPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <Search size={20} color="#111827" />
+                        <Search size={20} color={themeColors.text} />
                       </InputAdornment>
                     ),
                     endAdornment: (
@@ -447,16 +452,17 @@ export default function DatasetsPage() {
                   top: "calc(100% + 8px)",
                   left: 0,
                   right: 0,
-                  backgroundColor: "#fff",
-                  border: "1px solid #e5e7eb",
+                  backgroundColor: themeColors.card,
+                  border: `1px solid ${themeColors.border}`,
                   borderRadius: "12px",
-                  boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+                  boxShadow: themeColors.isDarkMode ? "0 8px 24px rgba(0, 0, 0, 0.3)" : "0 8px 24px rgba(0, 0, 0, 0.1)",
                   zIndex: 100,
                   overflow: "hidden",
+                  transition: "background-color 0.3s ease",
                 }}
               >
                 {/* Recent Queries */}
-                <Box sx={{ borderBottom: "1px solid #e5e7eb" }}>
+                <Box sx={{ borderBottom: `1px solid ${themeColors.border}` }}>
                   <Typography
                     sx={{
                       px: 2.5,
@@ -464,7 +470,7 @@ export default function DatasetsPage() {
                       pb: 1,
                       fontSize: "0.85rem",
                       fontWeight: 700,
-                      color: "#6b7280",
+                      color: themeColors.textMuted,
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
                     }}
@@ -484,12 +490,12 @@ export default function DatasetsPage() {
                         cursor: "pointer",
                         transition: "background-color 0.2s",
                         "&:hover": {
-                          backgroundColor: "#f9fafb",
+                          backgroundColor: themeColors.hoverBg,
                         },
                       }}
                     >
                       <Box sx={{ fontSize: "1rem" }}>⏱️</Box>
-                      <Typography sx={{ fontSize: "0.9rem", color: "#374151" }}>
+                      <Typography sx={{ fontSize: "0.9rem", color: themeColors.text }}>
                         {query}
                       </Typography>
                     </Box>
@@ -497,7 +503,7 @@ export default function DatasetsPage() {
                 </Box>
 
                 {/* Recently Viewed */}
-                <Box sx={{ borderBottom: "1px solid #e5e7eb" }}>
+                <Box sx={{ borderBottom: `1px solid ${themeColors.border}` }}>
                   <Typography
                     sx={{
                       px: 2.5,
@@ -505,7 +511,7 @@ export default function DatasetsPage() {
                       pb: 1,
                       fontSize: "0.85rem",
                       fontWeight: 700,
-                      color: "#6b7280",
+                      color: themeColors.textMuted,
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
                     }}
@@ -523,7 +529,7 @@ export default function DatasetsPage() {
                         cursor: "pointer",
                         transition: "background-color 0.2s",
                         "&:hover": {
-                          backgroundColor: "#f9fafb",
+                          backgroundColor: themeColors.hoverBg,
                         },
                       }}
                     >
@@ -543,7 +549,7 @@ export default function DatasetsPage() {
                           sx={{
                             fontSize: "0.9rem",
                             fontWeight: 600,
-                            color: "#111827",
+                            color: themeColors.text,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
                             whiteSpace: "nowrap",
@@ -554,7 +560,7 @@ export default function DatasetsPage() {
                         <Typography
                           sx={{
                             fontSize: "0.8rem",
-                            color: "#6b7280",
+                            color: themeColors.textMuted,
                             mt: 0.3,
                             overflow: "hidden",
                             textOverflow: "ellipsis",
@@ -574,7 +580,7 @@ export default function DatasetsPage() {
                     sx={{
                       fontSize: "0.85rem",
                       fontWeight: 700,
-                      color: "#6b7280",
+                      color: themeColors.textMuted,
                       textTransform: "uppercase",
                       letterSpacing: "0.5px",
                       mb: 1,
@@ -591,12 +597,12 @@ export default function DatasetsPage() {
                           size="small"
                           onClick={() => setSearch(tag)}
                           sx={{
-                            backgroundColor: "#f3f4f6",
-                            color: "#374151",
+                            backgroundColor: themeColors.bgSecondary,
+                            color: themeColors.text,
                             fontSize: "0.8rem",
                             height: 28,
                             "&:hover": {
-                              backgroundColor: "#e5e7eb",
+                              backgroundColor: themeColors.hoverBg,
                               cursor: "pointer",
                             },
                           }}
@@ -642,12 +648,12 @@ export default function DatasetsPage() {
                 }}
               >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.2 }}>
-                  <TrendingUp size={24} color="#111827" strokeWidth={2.5} />
+                  <TrendingUp size={24} color={themeColors.text} strokeWidth={2.5} />
                   <Typography
                     sx={{
                       fontSize: "1.1rem",
                       fontWeight: 700,
-                      color: "#111827",
+                      color: themeColors.text,
                     }}
                   >
                     Trending Datasets
@@ -667,13 +673,13 @@ export default function DatasetsPage() {
                         gap: 1,
                         px: 1.5,
                         py: 0.8,
-                        backgroundColor: "#f9fafb",
+                        backgroundColor: themeColors.bgSecondary,
                         borderRadius: "8px",
                         cursor: "pointer",
-                        border: "1px solid #e5e7eb",
+                        border: `1px solid ${themeColors.border}`,
                         fontSize: "0.9rem",
                         fontWeight: 600,
-                        color: "#111827",
+                        color: themeColors.text,
                         transition: "all 0.2s",
                         minWidth: "120px",
                         height: 40,
@@ -681,14 +687,14 @@ export default function DatasetsPage() {
                           border: "none",
                         },
                         "&:hover": {
-                          backgroundColor: "#f3f4f6",
+                          backgroundColor: themeColors.hoverBg,
                         },
                         "&.Mui-focused": {
-                          backgroundColor: "#f3f4f6",
+                          backgroundColor: themeColors.hoverBg,
                           outline: "none",
                         },
                         "& .MuiSvgIcon-root": {
-                          color: "#6b7280",
+                          color: themeColors.textMuted,
                         },
                       }}
                     >
@@ -704,10 +710,10 @@ export default function DatasetsPage() {
                       sx={{
                         display: "flex",
                         gap: 0.5,
-                        backgroundColor: "#f9fafb",
+                        backgroundColor: themeColors.bgSecondary,
                         borderRadius: "8px",
                         padding: "4px",
-                        border: "1px solid #e5e7eb",
+                        border: `1px solid ${themeColors.border}`,
                       }}
                     >
                       <Box
@@ -715,40 +721,40 @@ export default function DatasetsPage() {
                         sx={{
                           p: 0.8,
                           borderRadius: "6px",
-                          backgroundColor: viewType === "grid" ? "#fff" : "transparent",
-                          border: viewType === "grid" ? "1px solid #e5e7eb" : "none",
+                          backgroundColor: viewType === "grid" ? themeColors.card : "transparent",
+                          border: viewType === "grid" ? `1px solid ${themeColors.border}` : "none",
                           cursor: "pointer",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           transition: "all 0.2s",
                           "&:hover": {
-                            backgroundColor: "#f3f4f6",
+                            backgroundColor: themeColors.hoverBg,
                           },
                         }}
                         title="Grid View"
                       >
-                        <Grid3x3 size={18} color={viewType === "grid" ? PRIMARY_COLOR : "#6b7280"} />
+                        <Grid3x3 size={18} color={viewType === "grid" ? PRIMARY_COLOR : themeColors.textMuted} />
                       </Box>
                       <Box
                         onClick={() => setViewType("list")}
                         sx={{
                           p: 0.8,
                           borderRadius: "6px",
-                          backgroundColor: viewType === "list" ? "#fff" : "transparent",
-                          border: viewType === "list" ? "1px solid #e5e7eb" : "none",
+                          backgroundColor: viewType === "list" ? themeColors.card : "transparent",
+                          border: viewType === "list" ? `1px solid ${themeColors.border}` : "none",
                           cursor: "pointer",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
                           transition: "all 0.2s",
                           "&:hover": {
-                            backgroundColor: "#f3f4f6",
+                            backgroundColor: themeColors.hoverBg,
                           },
                         }}
                         title="List View"
                       >
-                        <List size={18} color={viewType === "list" ? PRIMARY_COLOR : "#6b7280"} />
+                        <List size={18} color={viewType === "list" ? PRIMARY_COLOR : themeColors.textMuted} />
                       </Box>
                     </Box>
                   </Box>
@@ -775,14 +781,14 @@ export default function DatasetsPage() {
                     fontSize: "0.85rem",
                     height: 32,
                     px: 1.5,
-                    backgroundColor: !selectedCategory ? PRIMARY_COLOR : "#fff",
-                    color: !selectedCategory ? "#fff" : "#374151",
-                    borderColor: "#d1d5db",
+                    backgroundColor: !selectedCategory ? PRIMARY_COLOR : themeColors.card,
+                    color: !selectedCategory ? "#fff" : themeColors.text,
+                    borderColor: themeColors.border,
                     fontWeight: 600,
                     "&:hover": {
                       backgroundColor: !selectedCategory
                         ? PRIMARY_COLOR
-                        : "#e6f7f6",
+                        : themeColors.hoverBg,
                     },
                   }}
                 />
@@ -812,19 +818,19 @@ export default function DatasetsPage() {
                       backgroundColor:
                         selectedCategory && !selectedCategory.selectedSubcategory
                           ? PRIMARY_COLOR
-                          : "#fff",
+                          : themeColors.card,
                       color:
                         selectedCategory && !selectedCategory.selectedSubcategory
                           ? "#fff"
-                          : "#374151",
-                      borderColor: "#d1d5db",
+                          : themeColors.text,
+                      borderColor: themeColors.border,
                       fontWeight: 600,
                       "&:hover": {
                         backgroundColor:
                           selectedCategory &&
                           !selectedCategory.selectedSubcategory
                             ? PRIMARY_COLOR
-                            : "#e6f7f6",
+                            : themeColors.hoverBg,
                       },
                     }}
                   />
@@ -875,20 +881,20 @@ export default function DatasetsPage() {
                           selectedCategory.selectedSubcategory?.id ===
                           subcategory.id
                             ? PRIMARY_COLOR
-                            : "#fff",
+                            : themeColors.card,
                         color:
                           selectedCategory.selectedSubcategory?.id ===
                           subcategory.id
                             ? "#fff"
-                            : "#374151",
-                        borderColor: "#d1d5db",
+                            : themeColors.text,
+                        borderColor: themeColors.border,
                         fontWeight: 500,
                         "&:hover": {
                           backgroundColor:
                             selectedCategory.selectedSubcategory?.id ===
                             subcategory.id
                               ? PRIMARY_COLOR
-                              : "#e6f7f6",
+                              : themeColors.hoverBg,
                         },
                       }}
                     />
@@ -1036,6 +1042,7 @@ export default function DatasetsPage() {
 
 function DatasetCard({ dataset, viewType = "grid" }) {
   const navigate = useNavigate();
+  const themeColors = useThemeColors();
 
   const handleOpenDataset = () => {
     navigate(`/dataset-info/${dataset.id}`, {
@@ -1053,13 +1060,13 @@ function DatasetCard({ dataset, viewType = "grid" }) {
           display: "flex",
           gap: 2,
           padding: 2.5,
-          backgroundColor: "#fff",
-          border: "1px solid #e5e7eb",
+          backgroundColor: themeColors.card,
+          border: `1px solid ${themeColors.border}`,
           borderRadius: "12px",
           transition: "all 0.3s ease",
           alignItems: "stretch",
           "&:hover": {
-            boxShadow: "0 10px 24px rgba(97, 197, 195, 0.12)",
+            boxShadow: themeColors.isDarkMode ? "0 10px 24px rgba(97, 197, 195, 0.2)" : "0 10px 24px rgba(97, 197, 195, 0.12)",
             borderColor: PRIMARY_COLOR,
           },
         }}
@@ -1093,7 +1100,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
                 sx={{
                   fontSize: "0.95rem",
                   fontWeight: 700,
-                  color: "#111827",
+                  color: themeColors.text,
                   cursor: "pointer",
                   transition: "color 0.2s ease",
                   flex: 1,
@@ -1109,11 +1116,11 @@ function DatasetCard({ dataset, viewType = "grid" }) {
               </IconButton>
             </Box>
 
-            <Typography sx={{ fontSize: "0.85rem", color: "#6b7280", mb: 1 }}>
+            <Typography sx={{ fontSize: "0.85rem", color: themeColors.textMuted, mb: 1 }}>
               {dataset.author} · Updated {dataset.updated.replace("Updated ", "")}
             </Typography>
 
-            <Typography sx={{ fontSize: "0.8rem", color: "#111827" }}>
+            <Typography sx={{ fontSize: "0.8rem", color: themeColors.text }}>
               Visibility <b>{dataset.usability}</b> · {dataset.files} ({dataset.size}) · {dataset.downloads} · {dataset.votes} notebooks
             </Typography>
           </Box>
@@ -1126,9 +1133,10 @@ function DatasetCard({ dataset, viewType = "grid" }) {
                 alignItems: "center",
                 gap: 0.3,
                 padding: "4px 8px",
-                backgroundColor: "#f3f4f6",
+                backgroundColor: themeColors.bgSecondary,
                 borderRadius: "4px",
                 fontSize: "0.8rem",
+                color: themeColors.text,
               }}
             >
               <ChevronUp size={14} />
@@ -1140,7 +1148,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
                 alignItems: "center",
                 gap: 0.5,
                 padding: "6px 12px",
-                backgroundColor: "#e6f7f6",
+                backgroundColor: themeColors.isDarkMode ? "rgba(97, 197, 195, 0.15)" : "#e6f7f6",
                 borderRadius: "6px",
                 fontSize: "0.85rem",
                 fontWeight: 600,
@@ -1161,8 +1169,8 @@ function DatasetCard({ dataset, viewType = "grid" }) {
       sx={{
         borderRadius: "12px",
         overflow: "hidden",
-        backgroundColor: "#fff",
-        border: "1px solid #e5e7eb",
+        backgroundColor: themeColors.card,
+        border: `1px solid ${themeColors.border}`,
         boxShadow: "none",
         transition: "all 0.3s ease",
         height: "100%",
@@ -1170,7 +1178,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
         flexDirection: "column",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: "0 10px 24px rgba(97, 197, 195, 0.12)",
+          boxShadow: themeColors.isDarkMode ? "0 10px 24px rgba(97, 197, 195, 0.2)" : "0 10px 24px rgba(97, 197, 195, 0.12)",
           borderColor: PRIMARY_COLOR,
         },
       }}
@@ -1256,7 +1264,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
               fontSize: "0.98rem",
               fontWeight: 700,
               lineHeight: 1.4,
-              color: "#111827",
+              color: themeColors.text,
               cursor: "pointer",
               display: "-webkit-box",
               WebkitLineClamp: 2,
@@ -1280,7 +1288,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
         <Typography
           sx={{
             fontSize: "0.85rem",
-            color: "#1f2937",
+            color: themeColors.text,
             fontWeight: 500,
             mb: 1.2,
           }}
@@ -1296,11 +1304,11 @@ function DatasetCard({ dataset, viewType = "grid" }) {
             gap: 0.8,
             mb: 1.5,
             fontSize: "0.8rem",
-            color: "#6b7280",
+            color: themeColors.textMuted,
           }}
         >
           <Typography sx={{ fontSize: "inherit" }}>
-            Visibility <b style={{ color: "#111827" }}>{dataset.usability}</b>
+            Visibility <b style={{ color: themeColors.text }}>{dataset.usability}</b>
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.4 }}>
             <Calendar size={14} />
@@ -1316,7 +1324,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
             gap: 1.2,
             mb: 1.5,
             pb: 1.5,
-            borderBottom: "1px solid #e5e7eb",
+            borderBottom: `1px solid ${themeColors.border}`,
             whiteSpace: "nowrap",
             overflow: "hidden",
             width: "100%",
@@ -1324,21 +1332,21 @@ function DatasetCard({ dataset, viewType = "grid" }) {
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
             <FileIcon size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 500 }}>
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
               {dataset.files}
             </Typography>
           </Box>
-          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: "#d1d5db", flexShrink: 0 }} />
+          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
             <HardDrive size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 500 }}>
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
               {dataset.size}
             </Typography>
           </Box>
-          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: "#d1d5db", flexShrink: 0 }} />
+          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
             <Download size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: "#6b7280", fontWeight: 500 }}>
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
               {dataset.downloads}
             </Typography>
           </Box>
