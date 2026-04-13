@@ -1,28 +1,86 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
 :root,
 [data-theme="light"] {
+  /* Primary Colors */
   --primary-orange: #FF8C00;
   --secondary-teal: #20B2AA;
+
+  /* Background Colors */
   --bg-gray: #F5F7FA;
   --bg-white: #FFFFFF;
+  --bg-panel: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+
+  /* Text Colors */
   --text-dark: #1A202C;
   --text-muted: #4A5568;
+  --text-light: rgba(255, 255, 255, 0.92);
+
+  /* Border & Divider Colors */
   --border-color: #E5E7EB;
+  --border-light: rgba(255, 255, 255, 0.22);
+
+  /* Card & Surface Colors */
   --card-bg: #FFFFFF;
   --hover-bg: #F9FAFB;
+
+  /* Component Colors */
+  --input-bg: #F5F7FA;
+  --input-border: rgba(255, 255, 255, 0.22);
+  --input-text: #1A202C;
+
+  /* State Colors */
+  --error-color: #EF4444;
+  --warning-color: #F59E0B;
+  --info-color: #3B82F6;
+  --success-color: #10B981;
+
+  /* Shadow Colors */
+  --shadow-sm: rgba(0, 0, 0, 0.05);
+  --shadow-md: rgba(0, 0, 0, 0.1);
+  --shadow-lg: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="dark"] {
+  /* Primary Colors */
   --primary-orange: #FF8C00;
   --secondary-teal: #20B2AA;
+
+  /* Background Colors */
   --bg-gray: #0F172A;
   --bg-white: #1E293B;
+  --bg-panel: #071A29;
+  --bg-secondary: #334155;
+
+  /* Text Colors */
   --text-dark: #F1F5F9;
   --text-muted: #CBD5E1;
+  --text-light: rgba(255, 255, 255, 0.82);
+
+  /* Border & Divider Colors */
   --border-color: #334155;
+  --border-light: rgba(255, 255, 255, 0.14);
+
+  /* Card & Surface Colors */
   --card-bg: #1E293B;
   --hover-bg: #334155;
+
+  /* Component Colors */
+  --input-bg: #04121D;
+  --input-border: rgba(255, 255, 255, 0.22);
+  --input-text: #ffffff;
+
+  /* State Colors */
+  --error-color: #EF4444;
+  --warning-color: #F59E0B;
+  --info-color: #3B82F6;
+  --success-color: #10B981;
+
+  /* Shadow Colors */
+  --shadow-sm: rgba(0, 0, 0, 0.2);
+  --shadow-md: rgba(0, 0, 0, 0.3);
+  --shadow-lg: rgba(0, 0, 0, 0.4);
 }
 
 * {

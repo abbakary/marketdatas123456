@@ -1,0 +1,231 @@
+/* ===== Global Container Styles ===== */
+.theme-container {
+  background-color: var(--bg-gray);
+  color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* ===== MUI Paper & Card Styles ===== */
+.MuiPaper-root {
+  background-color: var(--card-bg) !important;
+  color: var(--text-dark) !important;
+  border-color: var(--border-color) !important;
+}
+
+.MuiCard-root {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color);
+}
+
+/* ===== MUI TextField Styles ===== */
+.MuiTextField-root .MuiOutlinedInput-root {
+  background-color: var(--input-bg) !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-input {
+  color: var(--input-text) !important;
+}
+
+.MuiTextField-root .MuiInputLabel-root {
+  color: var(--text-muted) !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color) !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--secondary-teal) !important;
+}
+
+.MuiTextField-root .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--secondary-teal) !important;
+}
+
+/* ===== MUI Button Styles ===== */
+.MuiButton-contained {
+  background-color: var(--primary-orange) !important;
+  color: white !important;
+}
+
+.MuiButton-outlined {
+  border-color: var(--border-color) !important;
+  color: var(--text-dark) !important;
+}
+
+/* ===== MUI Divider ===== */
+.MuiDivider-root {
+  border-color: var(--border-color) !important;
+}
+
+/* ===== MUI Checkbox ===== */
+.MuiCheckbox-root {
+  color: var(--text-muted) !important;
+}
+
+.MuiCheckbox-root.Mui-checked {
+  color: var(--secondary-teal) !important;
+}
+
+/* ===== MUI Typography ===== */
+.MuiTypography-root {
+  color: var(--text-dark);
+}
+
+/* ===== MUI Dialog & Modal ===== */
+.MuiDialog-paper {
+  background-color: var(--card-bg) !important;
+}
+
+.MuiBackdrop-root {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* ===== MUI Table ===== */
+.MuiTable-root {
+  background-color: var(--card-bg) !important;
+}
+
+.MuiTableCell-root {
+  border-color: var(--border-color) !important;
+  color: var(--text-dark) !important;
+}
+
+.MuiTableHead-root .MuiTableCell-root {
+  background-color: var(--bg-secondary) !important;
+  font-weight: 600;
+}
+
+/* ===== MUI List ===== */
+.MuiList-root {
+  background-color: var(--card-bg) !important;
+}
+
+.MuiListItem-root {
+  color: var(--text-dark) !important;
+}
+
+.MuiListItemButton-root:hover {
+  background-color: var(--hover-bg) !important;
+}
+
+/* ===== MUI AppBar ===== */
+.MuiAppBar-root {
+  background-color: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* ===== MUI Select ===== */
+.MuiSelect-outlined {
+  color: var(--input-text) !important;
+}
+
+.MuiSelect-select {
+  background-color: var(--input-bg) !important;
+}
+
+/* ===== MUI InputBase ===== */
+.MuiInputBase-root {
+  color: var(--input-text) !important;
+}
+
+/* ===== Focus & Hover States ===== */
+.MuiButtonBase-root:hover {
+  background-color: var(--hover-bg) !important;
+}
+
+/* ===== Utility Classes ===== */
+.dark-bg {
+  background-color: var(--bg-gray);
+}
+
+.light-bg {
+  background-color: var(--card-bg);
+}
+
+.theme-text {
+  color: var(--text-dark);
+}
+
+.theme-text-muted {
+  color: var(--text-muted);
+}
+
+.theme-border {
+  border-color: var(--border-color);
+}
+
+.theme-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.theme-card:hover {
+  background-color: var(--hover-bg);
+}
+
+.theme-input {
+  background-color: var(--input-bg);
+  color: var(--input-text);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-family: inherit;
+}
+
+.theme-input:focus {
+  outline: none;
+  border-color: var(--secondary-teal);
+  box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
+}
+
+.theme-badge {
+  background-color: var(--primary-orange);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ===== Scrollbar Styles ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+/* ===== Transitions for Theme Switch ===== */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  .MuiPaper-root,
+  .MuiCard-root {
+    background-color: white;
+    color: black;
+  }
+}

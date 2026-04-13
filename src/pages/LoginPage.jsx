@@ -37,13 +37,8 @@ const API_BASE = import.meta.env?.VITE_API_BASE || "http://127.0.0.1:8000";
 const TOKEN_KEY = "dali-token";
 const USER_KEY = "dali-user";
 
-// ---- Theme ----
-const DALI_BG = "#04121D";
-const DALI_PANEL = "#071A29";
-const DALI_ACCENT = "#5EC4C3";
-const DALI_BORDER = "rgba(255,255,255,0.14)";
-const DALI_TITLE_GRADIENT = "linear-gradient(90deg,#5ec4c3,#f58a24)";
-const DALI_PANEL_GLASS = "rgba(7, 26, 41, 0.72)";
+// ---- Utils ----
+import { useThemeColors } from "../utils/useThemeColors";
 
 // ---- Tags from onboard ----
 const marketplaceTags = [
@@ -131,6 +126,26 @@ const api = axios.create({
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const {
+    bg,
+    bgPanel,
+    text,
+    textMuted,
+    textLight,
+    border,
+    borderLight,
+    orange,
+    teal,
+    darkBg,
+  } = useThemeColors();
+
+  // Theme-aware color constants
+  const DALI_BG = darkBg;
+  const DALI_PANEL = bgPanel;
+  const DALI_ACCENT = teal;
+  const DALI_BORDER = borderLight;
+  const DALI_TITLE_GRADIENT = `linear-gradient(90deg,${teal},${orange})`;
+  const DALI_PANEL_GLASS = bgPanel;
 
   const [form, setForm] = useState({
     email: "",

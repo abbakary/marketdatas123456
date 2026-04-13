@@ -5,6 +5,7 @@ import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import { lightTheme, darkTheme } from "./theme";
+import "./App.css";
 
 /* ===================== Public ===================== */
 
