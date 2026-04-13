@@ -1,6 +1,10 @@
 // src/App.jsx
 
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import { lightTheme, darkTheme } from "./theme";
 
 /* ===================== Public ===================== */
 
@@ -71,7 +75,7 @@ import LogoutPage from "./pages/LogoutPage.jsx";
 
 /* ===================== Routes ===================== */
 
-export default function App() {
+function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/onboard" replace />} />
@@ -134,5 +138,25 @@ export default function App() {
         element={<div style={{ padding: 24 }}>Page not found</div>}
       />
     </Routes>
+  );
+}
+
+function AppWithTheme() {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppRoutes />
+    </MuiThemeProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AppWithTheme />
+    </ThemeProvider>
   );
 }

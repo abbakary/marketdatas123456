@@ -45,7 +45,7 @@ export default function DatasetsPage() {
     tagSearch: "",
     minSize: "",
     maxSize: "",
-    fileTypes: [],
+    countries: [],
     licenses: [],
     usabilityRatings: [],
     votedFor: [],
@@ -125,6 +125,12 @@ export default function DatasetsPage() {
       "Dr. Michael Hassan", "Robert Chen", "Sarah Johnson", "David Kumar", "Emily Wilson",
     ];
 
+    const countries = [
+      "United States", "Canada", "United Kingdom", "India", "Australia",
+      "Germany", "France", "Japan", "Brazil", "Nigeria",
+      "Mexico", "South Africa", "Singapore", "China", "Netherlands",
+    ];
+
     const images = [
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=80",
       "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80",
@@ -171,6 +177,7 @@ export default function DatasetsPage() {
             author,
             category,
             subcategory,
+            country: countries[id % countries.length],
             usability: template.usability,
             updated: `Updated ${(id % 30) + 1} days ago`,
             files: `${((id % 5) + 1)} File${((id % 5) + 1) > 1 ? "s" : ""} (CSV)`,
@@ -179,7 +186,7 @@ export default function DatasetsPage() {
             votes: template.votes + id,
             notebooks: (id % 15) + 1,
             image,
-            price: ((id * 19) % 500 + 10).toFixed(2), // Price in USD 
+            price: ((id * 19) % 500 + 10).toFixed(2), // Price in USD
             trend: `+${(id % 30) + 5}%`,
             trendUp: true,
             avatars: [
@@ -216,7 +223,7 @@ export default function DatasetsPage() {
       tagSearch: "",
       minSize: "",
       maxSize: "",
-      fileTypes: [],
+      countries: [],
       licenses: [],
       usabilityRatings: [],
       votedFor: [],
@@ -235,19 +242,38 @@ export default function DatasetsPage() {
 
       // If no category is selected, show all datasets
       if (!selectedCategory) {
+        // Apply country filter
+        if (appliedFilters.countries.length > 0) {
+          return appliedFilters.countries.includes(dataset.country);
+        }
         return true;
       }
 
       // If a specific subcategory is selected, match by subcategory
       if (selectedCategory.selectedSubcategory) {
-        return (
+        const matchesCategory =
           dataset.category === selectedCategory.name &&
-          dataset.subcategory === selectedCategory.selectedSubcategory.name
-        );
+          dataset.subcategory === selectedCategory.selectedSubcategory.name;
+
+        if (!matchesCategory) return false;
+
+        // Apply country filter
+        if (appliedFilters.countries.length > 0) {
+          return appliedFilters.countries.includes(dataset.country);
+        }
+        return true;
       }
 
       // If only main category is selected, match by category
-      return dataset.category === selectedCategory.name;
+      const matchesCategory = dataset.category === selectedCategory.name;
+
+      if (!matchesCategory) return false;
+
+      // Apply country filter
+      if (appliedFilters.countries.length > 0) {
+        return appliedFilters.countries.includes(dataset.country);
+      }
+      return true;
     })
     .sort((a, b) => {
       switch (sortBy) {

@@ -1,11 +1,28 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-:root {
+:root,
+[data-theme="light"] {
   --primary-orange: #FF8C00;
   --secondary-teal: #20B2AA;
   --bg-gray: #F5F7FA;
+  --bg-white: #FFFFFF;
   --text-dark: #1A202C;
   --text-muted: #4A5568;
+  --border-color: #E5E7EB;
+  --card-bg: #FFFFFF;
+  --hover-bg: #F9FAFB;
+}
+
+[data-theme="dark"] {
+  --primary-orange: #FF8C00;
+  --secondary-teal: #20B2AA;
+  --bg-gray: #0F172A;
+  --bg-white: #1E293B;
+  --text-dark: #F1F5F9;
+  --text-muted: #CBD5E1;
+  --border-color: #334155;
+  --card-bg: #1E293B;
+  --hover-bg: #334155;
 }
 
 * {
@@ -25,4 +42,5 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-gray);
   color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

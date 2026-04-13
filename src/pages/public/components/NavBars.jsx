@@ -26,8 +26,11 @@ import {
   ChevronDown,
   LayoutDashboard,
   Globe,
+  Sun,
+  Moon,
 } from "lucide-react";
 import logo from "../../../assets/dali-data-logo.png";
+import { useTheme } from "../../../context/ThemeContext";
 
 const PRIMARY_COLOR = "#61C5C3";
 const TOKEN_KEY = "dali-token";
@@ -50,6 +53,7 @@ const getRoleDashboardPath = (role) => {
 
 export default function NavBar() {
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = useTheme();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMenu, setMobileMenu] = useState(null);
@@ -120,9 +124,10 @@ export default function NavBar() {
       position="static"
       elevation={0}
       sx={{
-        backgroundColor: "#ffffff",
-        borderBottom: "1px solid #e5e7eb",
-        color: "#111827",
+        backgroundColor: isDarkMode ? "#1E293B" : "#ffffff",
+        borderBottom: `1px solid ${isDarkMode ? "#334155" : "#e5e7eb"}`,
+        color: isDarkMode ? "#F1F5F9" : "#111827",
+        transition: "all 0.3s ease",
       }}
     >
       <Toolbar
@@ -179,9 +184,9 @@ export default function NavBar() {
                   borderRadius: "6px",
                   px: 1.5,
                   minWidth: "auto",
-                  color: "#111827",
+                  color: isDarkMode ? "#CBD5E1" : "#111827",
                   "&:hover": {
-                    backgroundColor: "#f1f5f9",
+                    backgroundColor: isDarkMode ? "#334155" : "#f1f5f9",
                     color: PRIMARY_COLOR,
                   },
                 }}
@@ -199,6 +204,24 @@ export default function NavBar() {
             alignItems: "center",
           }}
         >
+          <IconButton
+            onClick={toggleTheme}
+            sx={{
+              borderRadius: "8px",
+              padding: "8px",
+              backgroundColor: isDarkMode ? "#334155" : "#f1f5f9",
+              color: isDarkMode ? "#fbbf24" : "#f59e0b",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                backgroundColor: isDarkMode ? "#475569" : "#e0e7ff",
+                transform: "rotate(20deg)",
+              },
+            }}
+            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </IconButton>
+
           {isLoggedIn ? (
             <>
               <Box
@@ -210,11 +233,11 @@ export default function NavBar() {
                   cursor: "pointer",
                   padding: "6px 12px",
                   borderRadius: "12px",
-                  backgroundColor: "#f8fafc",
-                  border: "1px solid #e2e8f0",
+                  backgroundColor: isDarkMode ? "#334155" : "#f8fafc",
+                  border: `1px solid ${isDarkMode ? "#475569" : "#e2e8f0"}`,
                   transition: "all 0.2s",
                   "&:hover": {
-                    backgroundColor: "#f1f5f9",
+                    backgroundColor: isDarkMode ? "#475569" : "#f1f5f9",
                     borderColor: PRIMARY_COLOR,
                   },
                 }}
@@ -238,7 +261,7 @@ export default function NavBar() {
                     sx={{
                       fontSize: "0.85rem",
                       fontWeight: 700,
-                      color: "#1e293b",
+                      color: isDarkMode ? "#F1F5F9" : "#1e293b",
                       lineHeight: 1.2,
                     }}
                   >
@@ -269,16 +292,17 @@ export default function NavBar() {
                     minWidth: 220,
                     borderRadius: "12px",
                     boxShadow: "0 10px 25px rgba(0,0,0,0.1)",
-                    border: "1px solid #f1f5f9",
+                    border: `1px solid ${isDarkMode ? "#334155" : "#f1f5f9"}`,
                     padding: "4px",
+                    backgroundColor: isDarkMode ? "#1E293B" : "#ffffff",
                   },
                 }}
               >
-                <Box sx={{ px: 2, py: 1.5, mb: 0.5, backgroundColor: "#f8fafc", borderRadius: "8px" }}>
-                  <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, color: "#1e293b" }}>
+                <Box sx={{ px: 2, py: 1.5, mb: 0.5, backgroundColor: isDarkMode ? "#334155" : "#f8fafc", borderRadius: "8px" }}>
+                  <Typography sx={{ fontSize: "0.85rem", fontWeight: 700, color: isDarkMode ? "#F1F5F9" : "#1e293b" }}>
                     {displayName}
                   </Typography>
-                  <Typography sx={{ fontSize: "0.75rem", color: "#64748b" }}>
+                  <Typography sx={{ fontSize: "0.75rem", color: isDarkMode ? "#94A3B8" : "#64748b" }}>
                     {authUser?.email || "Signed in"}
                   </Typography>
                 </Box>
@@ -293,10 +317,10 @@ export default function NavBar() {
                     borderRadius: "8px",
                     fontSize: "0.88rem",
                     fontWeight: 500,
-                    color: "#475569",
+                    color: isDarkMode ? "#CBD5E1" : "#475569",
                     py: 1.2,
                     gap: 1.5,
-                    "&:hover": { backgroundColor: "#f1f5f9", color: PRIMARY_COLOR },
+                    "&:hover": { backgroundColor: isDarkMode ? "#334155" : "#f1f5f9", color: PRIMARY_COLOR },
                   }}
                 >
                   <LayoutDashboard size={18} />
@@ -312,10 +336,10 @@ export default function NavBar() {
                     borderRadius: "8px",
                     fontSize: "0.88rem",
                     fontWeight: 500,
-                    color: "#475569",
+                    color: isDarkMode ? "#CBD5E1" : "#475569",
                     py: 1.2,
                     gap: 1.5,
-                    "&:hover": { backgroundColor: "#f1f5f9", color: PRIMARY_COLOR },
+                    "&:hover": { backgroundColor: isDarkMode ? "#334155" : "#f1f5f9", color: PRIMARY_COLOR },
                   }}
                 >
                   <User size={18} />
@@ -333,7 +357,7 @@ export default function NavBar() {
                     color: "#ef4444",
                     py: 1.2,
                     gap: 1.5,
-                    "&:hover": { backgroundColor: "#fef2f2" },
+                    "&:hover": { backgroundColor: isDarkMode ? "#7f1d1d" : "#fef2f2" },
                   }}
                 >
                   <LogOut size={18} />
@@ -355,9 +379,10 @@ export default function NavBar() {
                   borderColor: PRIMARY_COLOR,
                   color: PRIMARY_COLOR,
                   px: 2,
+                  backgroundColor: isDarkMode ? "transparent" : "transparent",
                   "&:hover": {
                     borderColor: PRIMARY_COLOR,
-                    backgroundColor: "#e6f7f6",
+                    backgroundColor: isDarkMode ? "rgba(97, 197, 195, 0.15)" : "#e6f7f6",
                   },
                 }}
               >
@@ -374,7 +399,7 @@ export default function NavBar() {
                   fontSize: "0.85rem",
                   fontWeight: 700,
                   backgroundColor: PRIMARY_COLOR,
-                  color: "#04121D",
+                  color: isDarkMode ? "#04121D" : "#04121D",
                   px: 2,
                   boxShadow: "none",
                   "&:hover": {
@@ -396,6 +421,20 @@ export default function NavBar() {
             gap: 1,
           }}
         >
+          <IconButton
+            onClick={toggleTheme}
+            sx={{
+              borderRadius: "8px",
+              padding: "8px",
+              backgroundColor: isDarkMode ? "#334155" : "#f1f5f9",
+              color: isDarkMode ? "#fbbf24" : "#f59e0b",
+              transition: "all 0.3s ease",
+            }}
+            title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </IconButton>
+
           {isLoggedIn && (
             <Avatar
               sx={{
@@ -419,6 +458,12 @@ export default function NavBar() {
             anchorEl={mobileMenu}
             open={Boolean(mobileMenu)}
             onClose={() => setMobileMenu(null)}
+            PaperProps={{
+              sx: {
+                backgroundColor: isDarkMode ? "#1E293B" : "#ffffff",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
+              },
+            }}
           >
             {navLinks.map((item) => {
               const Icon = item.icon;
@@ -434,6 +479,11 @@ export default function NavBar() {
                     display: "flex",
                     gap: 1,
                     alignItems: "center",
+                    color: isDarkMode ? "#CBD5E1" : "#111827",
+                    "&:hover": {
+                      backgroundColor: isDarkMode ? "#334155" : "#f1f5f9",
+                      color: PRIMARY_COLOR,
+                    },
                   }}
                 >
                   <Icon size={16} />
@@ -451,7 +501,7 @@ export default function NavBar() {
                       const dashboardPath = getRoleDashboardPath(authUser?.role);
                       navigate(dashboardPath);
                     }}
-                    sx={{ display: "flex", gap: 1, alignItems: "center" }}
+                    sx={{ display: "flex", gap: 1, alignItems: "center", color: isDarkMode ? "#CBD5E1" : "#111827" }}
                   >
                     <LayoutDashboard size={16} />
                     My Dashboard
@@ -462,7 +512,7 @@ export default function NavBar() {
                       setMobileMenu(null);
                       navigate("/profile");
                     }}
-                    sx={{ display: "flex", gap: 1, alignItems: "center" }}
+                    sx={{ display: "flex", gap: 1, alignItems: "center", color: isDarkMode ? "#CBD5E1" : "#111827" }}
                   >
                     <User size={16} />
                     Profile
@@ -473,7 +523,7 @@ export default function NavBar() {
                       setMobileMenu(null);
                       handleLogout();
                     }}
-                    sx={{ display: "flex", gap: 1, alignItems: "center" }}
+                    sx={{ display: "flex", gap: 1, alignItems: "center", color: "#ef4444" }}
                   >
                     <LogOut size={16} />
                     Logout
@@ -486,6 +536,7 @@ export default function NavBar() {
                       setMobileMenu(null);
                       navigate("/login");
                     }}
+                    sx={{ color: isDarkMode ? "#CBD5E1" : "#111827" }}
                   >
                     Sign In
                   </MenuItem>,
@@ -495,6 +546,7 @@ export default function NavBar() {
                       setMobileMenu(null);
                       navigate("/register");
                     }}
+                    sx={{ color: isDarkMode ? "#CBD5E1" : "#111827" }}
                   >
                     Register
                   </MenuItem>,

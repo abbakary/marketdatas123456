@@ -1,5 +1,6 @@
 import { Box, Typography, TextField, Chip, InputAdornment, Button } from "@mui/material";
 import { X, Search } from "lucide-react";
+import { useTheme } from "../../../context/ThemeContext";
 
 const PRIMARY_COLOR = "#61C5C3";
 
@@ -11,6 +12,7 @@ export default function FiltersPanel({
   onApply,
   onClear,
 }) {
+  const { isDarkMode } = useTheme();
   const handleTagSearch = (value) => {
     onFiltersChange({
       ...filters,
@@ -18,14 +20,14 @@ export default function FiltersPanel({
     });
   };
 
-  const handleFileTypeToggle = (type) => {
-    const currentTypes = filters.fileTypes || [];
-    const updated = currentTypes.includes(type)
-      ? currentTypes.filter(t => t !== type)
-      : [...currentTypes, type];
+  const handleCountryToggle = (country) => {
+    const currentCountries = filters.countries || [];
+    const updated = currentCountries.includes(country)
+      ? currentCountries.filter(c => c !== country)
+      : [...currentCountries, country];
     onFiltersChange({
       ...filters,
-      fileTypes: updated,
+      countries: updated,
     });
   };
 
@@ -85,23 +87,23 @@ export default function FiltersPanel({
           top: 0,
           height: "100vh",
           width: { xs: "100%", sm: 420 },
-          backgroundColor: "#fff",
+          backgroundColor: isDarkMode ? "#1E293B" : "#fff",
           boxShadow: isOpen ? "-4px 0 16px rgba(0, 0, 0, 0.15)" : "none",
           transform: isOpen ? "translateX(0)" : "translateX(100%)",
-          transition: "transform 0.3s ease-in-out",
+          transition: "transform 0.3s ease-in-out, background-color 0.3s ease",
           zIndex: 9999,
           overflowY: "auto",
           "&::-webkit-scrollbar": {
             width: "6px",
           },
           "&::-webkit-scrollbar-track": {
-            backgroundColor: "#f1f1f1",
+            backgroundColor: isDarkMode ? "#334155" : "#f1f1f1",
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
+            backgroundColor: isDarkMode ? "#64748b" : "#888",
             borderRadius: "3px",
             "&:hover": {
-              backgroundColor: "#555",
+              backgroundColor: isDarkMode ? "#94A3B8" : "#555",
             },
           },
         }}
@@ -110,17 +112,17 @@ export default function FiltersPanel({
         <Box
           sx={{
             p: 2.5,
-            borderBottom: "1px solid #e5e7eb",
+            borderBottom: `1px solid ${isDarkMode ? "#334155" : "#e5e7eb"}`,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             position: "sticky",
             top: 0,
-            backgroundColor: "#fff",
+            backgroundColor: isDarkMode ? "#1E293B" : "#fff",
             zIndex: 10,
           }}
         >
-          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: "#111827" }}>
+          <Typography sx={{ fontSize: "1.2rem", fontWeight: 700, color: isDarkMode ? "#F1F5F9" : "#111827" }}>
             Filters
           </Typography>
           <Box
@@ -133,10 +135,11 @@ export default function FiltersPanel({
               width: 32,
               height: 32,
               borderRadius: "50%",
-              backgroundColor: "#f3f4f6",
+              backgroundColor: isDarkMode ? "#334155" : "#f3f4f6",
               transition: "background-color 0.2s",
+              color: isDarkMode ? "#CBD5E1" : "#111827",
               "&:hover": {
-                backgroundColor: "#e5e7eb",
+                backgroundColor: isDarkMode ? "#475569" : "#e5e7eb",
               },
             }}
           >
@@ -152,7 +155,7 @@ export default function FiltersPanel({
               sx={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                color: "#111827",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 mb: 1.5,
@@ -170,7 +173,7 @@ export default function FiltersPanel({
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Search size={16} color="#6b7280" />
+                    <Search size={16} color={isDarkMode ? "#94A3B8" : "#6b7280"} />
                   </InputAdornment>
                 ),
               }}
@@ -178,6 +181,22 @@ export default function FiltersPanel({
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "8px",
                   fontSize: "0.9rem",
+                  backgroundColor: isDarkMode ? "#334155" : "#fff",
+                  color: isDarkMode ? "#F1F5F9" : "#111827",
+                  borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                  "& fieldset": {
+                    borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: isDarkMode ? "#64748b" : "#d1d5db",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: PRIMARY_COLOR,
+                  },
+                },
+                "& .MuiOutlinedInput-input::placeholder": {
+                  color: isDarkMode ? "#94A3B8" : "#9ca3af",
+                  opacity: 1,
                 },
               }}
             />
@@ -189,7 +208,7 @@ export default function FiltersPanel({
               sx={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                color: "#111827",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 mb: 1.5,
@@ -206,10 +225,28 @@ export default function FiltersPanel({
                 }
                 variant="outlined"
                 size="small"
-                sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "8px" } }}
+                sx={{
+                  flex: 1,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: isDarkMode ? "#334155" : "#fff",
+                    color: isDarkMode ? "#F1F5F9" : "#111827",
+                    borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                    "& fieldset": {
+                      borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: isDarkMode ? "#64748b" : "#d1d5db",
+                    },
+                  },
+                  "& .MuiOutlinedInput-input::placeholder": {
+                    color: isDarkMode ? "#94A3B8" : "#9ca3af",
+                    opacity: 1,
+                  },
+                }}
               />
               <Box sx={{ px: 1 }}>
-                <Typography sx={{ fontSize: "0.9rem", color: "#6b7280" }}>
+                <Typography sx={{ fontSize: "0.9rem", color: isDarkMode ? "#94A3B8" : "#6b7280" }}>
                   to
                 </Typography>
               </Box>
@@ -221,16 +258,34 @@ export default function FiltersPanel({
                 }
                 variant="outlined"
                 size="small"
-                sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "8px" } }}
+                sx={{
+                  flex: 1,
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: isDarkMode ? "#334155" : "#fff",
+                    color: isDarkMode ? "#F1F5F9" : "#111827",
+                    borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                    "& fieldset": {
+                      borderColor: isDarkMode ? "#475569" : "#e5e7eb",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: isDarkMode ? "#64748b" : "#d1d5db",
+                    },
+                  },
+                  "& .MuiOutlinedInput-input::placeholder": {
+                    color: isDarkMode ? "#94A3B8" : "#9ca3af",
+                    opacity: 1,
+                  },
+                }}
               />
               <Box
                 sx={{
                   px: 1.5,
                   py: 0.8,
-                  backgroundColor: "#f3f4f6",
+                  backgroundColor: isDarkMode ? "#334155" : "#f3f4f6",
                   borderRadius: "6px",
                   fontSize: "0.85rem",
-                  color: "#6b7280",
+                  color: isDarkMode ? "#94A3B8" : "#6b7280",
                   whiteSpace: "nowrap",
                 }}
               >
@@ -239,46 +294,64 @@ export default function FiltersPanel({
             </Box>
           </Box>
 
-          {/* File Types Section */}
+          {/* Country/Region Section */}
           <Box sx={{ mb: 3 }}>
             <Typography
               sx={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                color: "#111827",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 mb: 1.5,
               }}
             >
-              File Types
+              Country/Region
             </Typography>
             <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-              {["CSV", "JSON", "SQLite", "Parquet", "BigQuery"].map((type) => (
+              {[
+                "United States",
+                "Canada",
+                "United Kingdom",
+                "India",
+                "Australia",
+                "Germany",
+                "France",
+                "Japan",
+                "Brazil",
+                "Nigeria",
+                "Mexico",
+                "South Africa",
+                "Singapore",
+                "China",
+                "Netherlands",
+              ].map((country) => (
                 <Chip
-                  key={type}
-                  label={type}
-                  onClick={() => handleFileTypeToggle(type)}
+                  key={country}
+                  label={country}
+                  onClick={() => handleCountryToggle(country)}
                   variant={
-                    (filters.fileTypes || []).includes(type)
+                    (filters.countries || []).includes(country)
                       ? "filled"
                       : "outlined"
                   }
                   sx={{
-                    backgroundColor: (filters.fileTypes || []).includes(type)
+                    backgroundColor: (filters.countries || []).includes(country)
                       ? PRIMARY_COLOR
-                      : "transparent",
-                    color: (filters.fileTypes || []).includes(type)
+                      : isDarkMode ? "#334155" : "transparent",
+                    color: (filters.countries || []).includes(country)
                       ? "#fff"
-                      : "#374151",
-                    borderColor: "#d1d5db",
+                      : isDarkMode ? "#CBD5E1" : "#374151",
+                    borderColor: isDarkMode ? "#475569" : "#d1d5db",
                     fontWeight: 500,
                     fontSize: "0.85rem",
                     height: 32,
                     "&:hover": {
-                      backgroundColor: (filters.fileTypes || []).includes(type)
+                      backgroundColor: (filters.countries || []).includes(
+                        country
+                      )
                         ? PRIMARY_COLOR
-                        : "#f3f4f6",
+                        : isDarkMode ? "#475569" : "#f3f4f6",
                     },
                   }}
                 />
@@ -292,7 +365,7 @@ export default function FiltersPanel({
               sx={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                color: "#111827",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 mb: 1.5,
@@ -317,11 +390,11 @@ export default function FiltersPanel({
                         license
                       )
                         ? PRIMARY_COLOR
-                        : "transparent",
+                        : isDarkMode ? "#334155" : "transparent",
                       color: (filters.licenses || []).includes(license)
                         ? "#fff"
-                        : "#374151",
-                      borderColor: "#d1d5db",
+                        : isDarkMode ? "#CBD5E1" : "#374151",
+                      borderColor: isDarkMode ? "#475569" : "#d1d5db",
                       fontWeight: 500,
                       fontSize: "0.85rem",
                       height: 32,
@@ -330,7 +403,7 @@ export default function FiltersPanel({
                           license
                         )
                           ? PRIMARY_COLOR
-                          : "#f3f4f6",
+                          : isDarkMode ? "#475569" : "#f3f4f6",
                       },
                     }}
                   />
@@ -345,7 +418,7 @@ export default function FiltersPanel({
               sx={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                color: "#111827",
+                color: isDarkMode ? "#F1F5F9" : "#111827",
                 textTransform: "uppercase",
                 letterSpacing: "0.5px",
                 mb: 1.5,
@@ -452,12 +525,12 @@ export default function FiltersPanel({
         <Box
           sx={{
             p: 2.5,
-            borderTop: "1px solid #e5e7eb",
+            borderTop: `1px solid ${isDarkMode ? "#334155" : "#e5e7eb"}`,
             display: "flex",
             gap: 2,
             position: "sticky",
             bottom: 0,
-            backgroundColor: "#fff",
+            backgroundColor: isDarkMode ? "#1E293B" : "#fff",
             zIndex: 10,
           }}
         >
@@ -465,8 +538,8 @@ export default function FiltersPanel({
             fullWidth
             onClick={onClear}
             sx={{
-              backgroundColor: "#f3f4f6",
-              color: "#374151",
+              backgroundColor: isDarkMode ? "#334155" : "#f3f4f6",
+              color: isDarkMode ? "#CBD5E1" : "#374151",
               fontWeight: 600,
               fontSize: "0.95rem",
               textTransform: "none",
@@ -474,7 +547,7 @@ export default function FiltersPanel({
               borderRadius: "8px",
               transition: "all 0.2s",
               "&:hover": {
-                backgroundColor: "#e5e7eb",
+                backgroundColor: isDarkMode ? "#475569" : "#e5e7eb",
               },
             }}
           >
