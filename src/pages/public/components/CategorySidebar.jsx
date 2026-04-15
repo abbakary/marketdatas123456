@@ -294,6 +294,22 @@ export default function CategorySidebar({ onCategorySelect, selectedCategory }) 
         <Box
           sx={{
             overflowX: "visible",
+            maxHeight: "calc(100vh - 180px)",
+            overflowY: "auto",
+            "&::-webkit-scrollbar": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "transparent",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "var(--text-muted)",
+              borderRadius: "3px",
+              opacity: 0.4,
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              opacity: 0.6,
+            },
           }}
         >
           {categoriesData.map((category, idx) => {
@@ -314,9 +330,9 @@ export default function CategorySidebar({ onCategorySelect, selectedCategory }) 
                   sx={{
                     display: "flex",
                     alignItems: "center",
-                    gap: 2,
-                    px: 3,
-                    py: 1.8,
+                    gap: 1.5,
+                    px: 2.5,
+                    py: 1.2,
                     cursor: "pointer",
                     backgroundColor: isSelected ? selectedBgColor : "transparent",
                     borderLeft: isSelected
@@ -331,14 +347,14 @@ export default function CategorySidebar({ onCategorySelect, selectedCategory }) 
                   }}
                   onClick={() => handleSelectCategory(category)}
                 >
-                  <Typography sx={{ fontSize: "1.8rem", flexShrink: 0 }}>
+                  <Typography sx={{ fontSize: "1.6rem", flexShrink: 0 }}>
                     {category.icon}
                   </Typography>
 
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
                       sx={{
-                        fontSize: "1.15rem",
+                        fontSize: "0.95rem",
                         fontWeight: 800,
                         color: isSelected ? PRIMARY_COLOR : "var(--text-dark)",
                         transition: "color 0.2s ease",
@@ -349,9 +365,9 @@ export default function CategorySidebar({ onCategorySelect, selectedCategory }) 
                     </Typography>
                     <Typography
                       sx={{
-                        fontSize: "0.95rem",
+                        fontSize: "0.8rem",
                         color: isSelected ? PRIMARY_COLOR : "var(--text-muted)",
-                        mt: 0.4,
+                        mt: 0.3,
                         fontWeight: 600,
                         transition: "color 0.3s ease",
                       }}
@@ -361,7 +377,7 @@ export default function CategorySidebar({ onCategorySelect, selectedCategory }) 
                   </Box>
 
                   <ChevronRight
-                    size={24}
+                    size={20}
                     style={{
                       color: isSelected ? PRIMARY_COLOR : "#8b5cf6",
                       flexShrink: 0,

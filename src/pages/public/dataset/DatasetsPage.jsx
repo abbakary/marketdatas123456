@@ -1300,55 +1300,41 @@ function DatasetCard({ dataset, viewType = "grid" }) {
           </Box>
         </Box>
 
-        {/* File Details Grid (admin-style, compact + readable) */}
+        {/* File Details - Flattened to one line */}
         <Box
           sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 0.8,
+            display: "flex",
+            alignItems: "center",
+            gap: 1.2,
             mb: 1.5,
             pb: 1.5,
             borderBottom: `1px solid ${themeColors.border}`,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            width: "100%",
+            flexWrap: "wrap",
           }}
         >
-          {[
-            { icon: <FileIcon size={14} color={PRIMARY_COLOR} />, label: dataset.files },
-            { icon: <HardDrive size={14} color={PRIMARY_COLOR} />, label: dataset.size },
-            { icon: <Download size={14} color={PRIMARY_COLOR} />, label: dataset.downloads },
-          ].map((item, i) => (
-            <Box
-              key={i}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 0.4,
-                p: 0.9,
-                borderRadius: "10px",
-                backgroundColor: themeColors.bgSecondary,
-                minWidth: 0,
-              }}
-              title={item.label}
-            >
-              {item.icon}
-              <Typography
-                sx={{
-                  fontSize: "0.67rem",
-                  color: themeColors.textMuted,
-                  fontWeight: 600,
-                  textAlign: "center",
-                  lineHeight: 1.25,
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {item.label}
-              </Typography>
-            </Box>
-          ))}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+            <FileIcon size={14} color={PRIMARY_COLOR} />
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
+              {dataset.files}
+            </Typography>
+          </Box>
+          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+            <HardDrive size={14} color={PRIMARY_COLOR} />
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
+              {dataset.size}
+            </Typography>
+          </Box>
+          <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+            <Download size={14} color={PRIMARY_COLOR} />
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
+              {dataset.downloads}
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
 
