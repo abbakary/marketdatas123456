@@ -1028,6 +1028,9 @@ function DatasetCard({ dataset, viewType = "grid" }) {
   const navigate = useNavigate();
   const themeColors = useThemeColors();
 
+  const fileLabel = dataset.files?.replace(/\s*\(.+\)$/, "") ?? dataset.files;
+  const downloadsLabel = dataset.downloads?.replace(/\s*downloads$/i, "") ?? dataset.downloads;
+
   const handleOpenDataset = () => {
     navigate(`/dataset-info/${dataset.id}`, {
       state: {
@@ -1105,7 +1108,7 @@ function DatasetCard({ dataset, viewType = "grid" }) {
             </Typography>
 
             <Typography sx={{ fontSize: "0.8rem", color: themeColors.text }}>
-              Visibility <b>{dataset.usability}</b> · {dataset.files} ({dataset.size}) · {dataset.downloads} · {dataset.votes} notebooks
+              Visibility <b>{dataset.usability}</b> · {fileLabel} · {dataset.size} · {downloadsLabel} · {dataset.votes} notebooks
             </Typography>
           </Box>
 
@@ -1312,27 +1315,27 @@ function DatasetCard({ dataset, viewType = "grid" }) {
             whiteSpace: "nowrap",
             overflow: "hidden",
             width: "100%",
-            flexWrap: "wrap",
+            flexWrap: "nowrap",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, minWidth: 0 }}>
             <FileIcon size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
-              {dataset.files}
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {fileLabel}
             </Typography>
           </Box>
           <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, minWidth: 0 }}>
             <HardDrive size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
               {dataset.size}
             </Typography>
           </Box>
           <Box sx={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: themeColors.border, flexShrink: 0 }} />
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.6, minWidth: 0 }}>
             <Download size={14} color={PRIMARY_COLOR} />
-            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500 }}>
-              {dataset.downloads}
+            <Typography sx={{ fontSize: "0.75rem", color: themeColors.textMuted, fontWeight: 500, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+              {downloadsLabel}
             </Typography>
           </Box>
         </Box>

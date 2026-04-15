@@ -5,10 +5,12 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 import logo from "../assets/logo1.png";
-import banner1 from "../assets/banner1.png";
 import icon12 from "../assets/icon12.png";
 
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import {
+  Mail, Lock, Eye, EyeOff,
+  User, Phone, Briefcase, Shield, Activity,
+} from "lucide-react";
 
 import {
   Box, Typography, TextField, Button, Checkbox, FormControlLabel,
@@ -21,52 +23,90 @@ import { useThemeColors } from "../utils/useThemeColors";
 
 const API_BASE = import.meta.env?.VITE_API_BASE || "http://127.0.0.1:8000";
 const TOKEN_KEY = "dali-token";
-const USER_KEY = "dali-user";
+const USER_KEY  = "dali-user";
 
-const api = axios.create({ baseURL: API_BASE, headers: { "Content-Type": "application/json", Accept: "application/json" } });
+const api = axios.create({
+  baseURL: API_BASE,
+  headers: { "Content-Type": "application/json", Accept: "application/json" },
+});
 
-const toast = (icon, title) => Swal.fire({ toast: true, position: "top-end", icon, title, timer: 3000, showConfirmButton: false });
+const toast = (icon, title) =>
+  Swal.fire({ toast: true, position: "top-end", icon, title, timer: 3000, showConfirmButton: false });
 
 const DEMO_ACCOUNTS = [
   { label: "Viewer",  email: "viewer@demo.com" },
-  { label: "Buyer",   email: "buyer@demo.com" },
+  { label: "Buyer",   email: "buyer@demo.com"  },
   { label: "Seller",  email: "seller@demo.com" },
   { label: "Editor",  email: "editor@demo.com" },
-  { label: "Admin",   email: "admin@demo.com" },
+  { label: "Admin",   email: "admin@demo.com"  },
+];
+
+const REGISTRATION_STEPS = [
+  {
+    icon: <User size={17} color="#F68822" strokeWidth={2} />,
+    title: "Create your account",
+    desc: "Enter your name, email and choose a secure password",
+  },
+  {
+    icon: <Phone size={17} color="#F68822" strokeWidth={2} />,
+    title: "Verify your email",
+    desc: "Click the confirmation link we send to your inbox",
+  },
+  {
+    icon: <Briefcase size={17} color="#F68822" strokeWidth={2} />,
+    title: "Set up your profile",
+    desc: "Add your organisation details and select your role",
+  },
+  {
+    icon: <Shield size={17} color="#F68822" strokeWidth={2} />,
+    title: "Choose your plan",
+    desc: "Pick a subscription that fits your data access needs",
+  },
+  {
+    icon: <Activity size={17} color="#F68822" strokeWidth={2} />,
+    title: "Access your data",
+    desc: "Browse datasets, manage requests and subscriptions",
+  },
 ];
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { isDarkMode, bg, text, textMuted, border, orange, teal, darkBg } = useThemeColors();
+  const { isDarkMode, text, textMuted, border, teal } = useThemeColors();
 
   const ACCENT = teal;
-  const cardBg = isDarkMode ? "rgba(7,26,41,0.86)" : "rgba(255,255,255,0.92)";
-  const cardBorder = isDarkMode ? "rgba(255,255,255,0.14)" : "rgba(15,23,42,0.10)";
-  const cardText = isDarkMode ? "#fff" : text;
-  const cardMuted = isDarkMode ? "rgba(255,255,255,0.72)" : textMuted;
-  const inputBg = isDarkMode ? "rgba(4,18,29,0.85)" : "#fff";
+
+  const leftBg      = isDarkMode ? "rgba(4,18,29,0.97)" : "#04121D";
+  const stepTitle   = "#62C6C4";
+  const stepDesc    = "rgba(98,198,196,0.55)";
+  const stepIconBg  = "rgba(246,136,34,0.12)";
+  const stepIconBdr = "rgba(246,136,34,0.35)";
+
+  const cardBg    = isDarkMode ? "rgba(7,26,41,0.96)" : "#ffffff";
+  const cardText  = isDarkMode ? "#fff" : text;
+  const cardMuted = isDarkMode ? "rgba(255,255,255,0.65)" : textMuted;
+  const inputBg   = isDarkMode ? "rgba(4,18,29,0.85)" : "#fafafa";
   const inputText = isDarkMode ? "#fff" : text;
-  const inputLabel = isDarkMode ? "rgba(255,255,255,0.85)" : textMuted;
-  const inputBorder = isDarkMode ? "rgba(255,255,255,0.22)" : border;
+  const inputLbl  = isDarkMode ? "rgba(255,255,255,0.80)" : textMuted;
+  const inputBdr  = isDarkMode ? "rgba(255,255,255,0.20)" : border;
 
   const textFieldSx = {
-    "& .MuiInputLabel-root": { color: inputLabel },
+    "& .MuiInputLabel-root": { color: inputLbl },
     "& .MuiInputLabel-root.Mui-focused": { color: ACCENT },
     "& .MuiOutlinedInput-root": {
       color: inputText,
       borderRadius: 2,
       backgroundColor: inputBg,
       "& input": { color: inputText },
-      "& fieldset": { borderColor: inputBorder },
+      "& fieldset": { borderColor: inputBdr },
       "&:hover fieldset": { borderColor: "rgba(94,196,195,0.70)" },
       "&.Mui-focused fieldset": { borderColor: ACCENT },
     },
     "& .MuiFormHelperText-root": { color: cardMuted },
   };
 
-  const [form, setForm] = useState({ email: "", password: "", remember: true });
+  const [form, setForm]       = useState({ email: "", password: "", remember: true });
   const [loading, setLoading] = useState(false);
-  const [showPw, setShowPw] = useState(false);
+  const [showPw, setShowPw]   = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
@@ -81,12 +121,15 @@ export default function LoginPage() {
   };
 
   const clearStoredAuth = () => {
-    [TOKEN_KEY, USER_KEY].forEach(k => { localStorage.removeItem(k); sessionStorage.removeItem(k); });
+    [TOKEN_KEY, USER_KEY].forEach(k => {
+      localStorage.removeItem(k);
+      sessionStorage.removeItem(k);
+    });
   };
 
   const validateForm = () => {
-    if (!form.email.trim())    { toast("error", "Email is required"); return false; }
-    if (!form.password.trim()) { toast("error", "Password is required"); return false; }
+    if (!form.email.trim())        { toast("error", "Email is required");                      return false; }
+    if (!form.password.trim())     { toast("error", "Password is required");                   return false; }
     if (form.password.length < 6)  { toast("error", "Password must be at least 6 characters"); return false; }
     if (form.password.length > 72) { toast("error", "Password must not exceed 72 characters"); return false; }
     return true;
@@ -97,7 +140,7 @@ export default function LoginPage() {
     if (!validateForm()) return;
     try {
       setLoading(true);
-      const email = form.email.trim().toLowerCase();
+      const email    = form.email.trim().toLowerCase();
       const mockUser = validateMockCredentials(email, form.password);
       if (mockUser) {
         clearStoredAuth();
@@ -110,7 +153,7 @@ export default function LoginPage() {
         return;
       }
       const { data } = await api.post("/auth/login", { email, password: form.password });
-      const token = data?.access_token;
+      const token    = data?.access_token;
       if (!token) throw new Error("No access token returned");
       clearStoredAuth();
       const storage = form.remember ? localStorage : sessionStorage;
@@ -118,7 +161,7 @@ export default function LoginPage() {
       let meData = null;
       try {
         const me = await api.get("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
-        meData = me?.data || null;
+        meData   = me?.data || null;
       } catch {
         meData = { email, role: "viewer", status: "pending" };
       }
@@ -134,85 +177,174 @@ export default function LoginPage() {
   };
 
   return (
-    <Box sx={{
-      minHeight: "100vh", bgcolor: darkBg, fontFamily: "'Poppins', sans-serif",
-      "@keyframes fadeUp": { "0%": { opacity: 0, transform: "translateY(28px)" }, "100%": { opacity: 1, transform: "translateY(0)" } },
-      "@keyframes fadeIn": { "0%": { opacity: 0 }, "100%": { opacity: 1 } },
-      "@keyframes floatSoft": { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-4px)" } },
-    }}>
-      {/* Background image must remain */}
-      <Box sx={{ position: "fixed", inset: 0, backgroundImage: `url(${banner1})`, backgroundSize: "cover", backgroundPosition: "center", transform: "scale(1.03)" }} />
-      <Box sx={{ position: "fixed", inset: 0, background: "linear-gradient(180deg, rgba(4,18,29,0.58), rgba(4,18,29,0.90))" }} />
-
-      <Box
+    <Box
+      sx={{
+        minHeight:      "100vh",
+        bgcolor:        isDarkMode ? "#020c14" : "#f0f4f8",
+        fontFamily:     "'Poppins', sans-serif",
+        display:        "flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        p:              3,
+        "@keyframes fadeUp": {
+          "0%":   { opacity: 0, transform: "translateY(22px)" },
+          "100%": { opacity: 1, transform: "translateY(0)"    },
+        },
+        "@keyframes fadeIn":    { "0%": { opacity: 0 }, "100%": { opacity: 1 } },
+        "@keyframes floatSoft": {
+          "0%,100%": { transform: "translateY(0)"    },
+          "50%":     { transform: "translateY(-4px)" },
+        },
+        animation: "fadeIn 0.45s ease",
+      }}
+    >
+      <Paper
+        elevation={0}
         sx={{
-          position: "relative",
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          px: 2,
-          py: { xs: 2, sm: 3 },
-          animation: "fadeIn 0.5s ease",
+          width:         "100%",
+          maxWidth:      940,
+          borderRadius:  4,
+          overflow:      "hidden",
+          display:       "flex",
+          flexDirection: { xs: "column", md: "row" },
+          boxShadow:     isDarkMode
+            ? "0 28px 64px rgba(0,0,0,0.65)"
+            : "0 28px 64px rgba(0,0,0,0.18)",
         }}
       >
-        <Paper
-          elevation={0}
+        {/* ══════════════════════════════
+            LEFT — Registration steps
+        ══════════════════════════════ */}
+        <Box
           sx={{
-            width: "100%",
-            maxWidth: 460,
-            borderRadius: 4,
-            p: { xs: 2.5, sm: 3 },
-            backgroundColor: cardBg,
-            border: `1px solid ${cardBorder}`,
-            boxShadow: isDarkMode ? "0 24px 60px rgba(0,0,0,0.55)" : "0 24px 60px rgba(0,0,0,0.25)",
-            backdropFilter: "blur(12px)",
+            width:          { xs: "100%", md: "42%" },
+            bgcolor:        leftBg,
+            p:              4,
+            display:        "flex",
+            flexDirection:  "column",
+            justifyContent: "center",
+            opacity:        0,
+            animation:      "fadeUp 0.7s ease forwards",
+            animationDelay: "0.08s",
           }}
         >
-          <Box
+          <Typography
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              textAlign: "center",
-              mb: 2.5,
-              opacity: 0,
-              animation: "fadeUp 0.7s ease forwards",
-              animationDelay: "0.06s",
+              color:         "#62C6C4",
+              fontSize:      13,
+              fontWeight:    800,
+              letterSpacing: "1px",
+              textTransform: "uppercase",
+              mb:            0.6,
             }}
           >
-            {/* Logo #1 (existing) centered */}
+            Get Started
+          </Typography>
+          <Typography sx={{ color: "rgba(98,198,196,0.55)", fontSize: 11.5, mb: 3.5 }}>
+            Create your account in 5 easy steps
+          </Typography>
+
+          {REGISTRATION_STEPS.map(({ icon, title, desc }, i) => (
+            <Box
+              key={title}
+              sx={{
+                display:        "flex",
+                alignItems:     "flex-start",
+                gap:            1.6,
+                mb:             i < REGISTRATION_STEPS.length - 1 ? 2.6 : 0,
+                opacity:        0,
+                animation:      "fadeUp 0.6s ease forwards",
+                animationDelay: `${0.18 + i * 0.07}s`,
+              }}
+            >
+              <Box
+                sx={{
+                  width:          36,
+                  height:         36,
+                  borderRadius:   "50%",
+                  bgcolor:        stepIconBg,
+                  border:         `1.5px solid ${stepIconBdr}`,
+                  display:        "flex",
+                  alignItems:     "center",
+                  justifyContent: "center",
+                  flexShrink:     0,
+                  mt:             "1px",
+                }}
+              >
+                {icon}
+              </Box>
+              <Box sx={{ flex: 1 }}>
+                <Typography sx={{ color: stepTitle, fontSize: 13, fontWeight: 800, lineHeight: 1.3, mb: 0.3 }}>
+                  {title}
+                </Typography>
+                <Typography sx={{ color: stepDesc, fontSize: 11, lineHeight: 1.55 }}>
+                  {desc}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
+        </Box>
+
+        {/* ══════════════════════════════
+            RIGHT — Login form
+        ══════════════════════════════ */}
+        <Box
+          sx={{
+            width:          { xs: "100%", md: "58%" },
+            bgcolor:        cardBg,
+            p:              4,
+            display:        "flex",
+            flexDirection:  "column",
+            justifyContent: "center",
+          }}
+        >
+          {/* Logo — centred */}
+          <Box
+            sx={{
+              display:        "flex",
+              flexDirection:  "column",
+              alignItems:     "center",
+              textAlign:      "center",
+              mb:             2.5,
+              opacity:        0,
+              animation:      "fadeUp 0.7s ease forwards",
+              animationDelay: "0.10s",
+            }}
+          >
             <Box
               component="img"
               src={logo}
               alt="Dali Data"
               sx={{
-                height: 46,
+                height:    48,
                 objectFit: "contain",
-                mb: 1,
-                filter: isDarkMode ? "drop-shadow(0 10px 22px rgba(0,0,0,0.35))" : "drop-shadow(0 10px 22px rgba(0,0,0,0.20))",
+                mb:        1,
+                filter:    isDarkMode
+                  ? "drop-shadow(0 8px 18px rgba(0,0,0,0.4))"
+                  : "drop-shadow(0 8px 18px rgba(0,0,0,0.15))",
               }}
             />
-            <Typography sx={{ color: cardText, fontSize: 20, fontWeight: 950, lineHeight: 1.15 }}>
+            <Typography sx={{ color: cardText, fontSize: 19, fontWeight: 950, lineHeight: 1.2 }}>
               Sign in
             </Typography>
-            <Typography sx={{ color: cardMuted, fontSize: 12.5, mt: 0.6 }}>
+            <Typography sx={{ color: cardMuted, fontSize: 12, mt: 0.5 }}>
               Access your DALI account to manage datasets, subscriptions, and requests.
             </Typography>
           </Box>
 
-          <Divider sx={{ borderColor: isDarkMode ? "rgba(255,255,255,0.10)" : "rgba(15,23,42,0.10)", mb: 2 }} />
+          <Divider sx={{ borderColor: isDarkMode ? "rgba(255,255,255,0.10)" : "rgba(15,23,42,0.08)", mb: 2 }} />
 
+          {/* Form */}
           <Box
             component="form"
             onSubmit={handleSubmit}
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              opacity: 0,
-              animation: "fadeUp 0.7s ease forwards",
-              animationDelay: "0.14s",
+              display:        "flex",
+              flexDirection:  "column",
+              gap:            1,
+              opacity:        0,
+              animation:      "fadeUp 0.7s ease forwards",
+              animationDelay: "0.18s",
             }}
           >
             <TextField
@@ -222,7 +354,13 @@ export default function LoginPage() {
               type="email"
               value={form.email}
               onChange={handleChange}
-              InputProps={{ startAdornment: <InputAdornment position="start"><Mail size={18} color={ACCENT} /></InputAdornment> }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Mail size={17} color={ACCENT} />
+                  </InputAdornment>
+                ),
+              }}
               sx={textFieldSx}
             />
 
@@ -233,13 +371,16 @@ export default function LoginPage() {
               type={showPw ? "text" : "password"}
               value={form.password}
               onChange={handleChange}
-              helperText={null}
               InputProps={{
-                startAdornment: <InputAdornment position="start"><Lock size={18} color={ACCENT} /></InputAdornment>,
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Lock size={17} color={ACCENT} />
+                  </InputAdornment>
+                ),
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPw((p) => !p)} edge="end" sx={{ color: ACCENT }}>
-                      {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                    <IconButton onClick={() => setShowPw(p => !p)} edge="end" sx={{ color: ACCENT }}>
+                      {showPw ? <EyeOff size={17} /> : <Eye size={17} />}
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -249,10 +390,18 @@ export default function LoginPage() {
 
             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: 0.2, gap: 1, flexWrap: "wrap" }}>
               <FormControlLabel
-                control={<Checkbox checked={form.remember} onChange={handleChange} name="remember" sx={{ color: cardMuted, "&.Mui-checked": { color: ACCENT } }} />}
-                label={<Typography sx={{ fontSize: 13.5, opacity: 0.95, color: cardText }}>Remember me</Typography>}
+                control={
+                  <Checkbox
+                    checked={form.remember}
+                    onChange={handleChange}
+                    name="remember"
+                    sx={{ color: cardMuted, "&.Mui-checked": { color: ACCENT } }}
+                  />
+                }
+                label={<Typography sx={{ fontSize: 13, color: cardText }}>Remember me</Typography>}
               />
-              <Link component={RouterLink} to="/forgot-password" underline="none" sx={{ color: ACCENT, fontWeight: 900, fontSize: 14 }}>
+              <Link component={RouterLink} to="/forgot-password" underline="none"
+                sx={{ color: ACCENT, fontWeight: 900, fontSize: 13.5 }}>
                 Forgot?
               </Link>
             </Box>
@@ -262,53 +411,30 @@ export default function LoginPage() {
               fullWidth
               disabled={loading}
               sx={{
-                mt: 1,
-                height: 46,
-                borderRadius: 2.5,
-                fontWeight: 950,
+                mt:            0.5,
+                height:        46,
+                borderRadius:  2.5,
+                fontWeight:    950,
                 textTransform: "none",
-                bgcolor: ACCENT,
-                color: "#04121D",
-                boxShadow: "0 16px 30px rgba(94,196,195,0.20)",
-                "&:hover": { bgcolor: "#49b2b1" },
-                "&.Mui-disabled": { bgcolor: "rgba(94,196,195,0.5)", color: "#04121D" },
+                bgcolor:       ACCENT,
+                color:         "#04121D",
+                boxShadow:     "0 12px 28px rgba(94,196,195,0.22)",
+                "&:hover":        { bgcolor: "#49b2b1" },
+                "&.Mui-disabled": { bgcolor: "rgba(94,196,195,0.45)", color: "#04121D" },
               }}
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Signing in…" : "Sign in"}
             </Button>
 
-            {/* Logo #2 (icon12) below Sign in button */}
-            <Box
-              sx={{
-                mt: 1.3,
-                display: "flex",
-                justifyContent: "center",
-                opacity: 0,
-                animation: "fadeUp 0.7s ease forwards",
-                animationDelay: "0.26s",
-              }}
-            >
-              <Box
-                component="img"
-                src={icon12}
-                alt="Dali icon"
-                sx={{
-                  height: 36,
-                  width: "auto",
-                  objectFit: "contain",
-                  animation: "floatSoft 2.4s ease-in-out infinite",
-                  filter: isDarkMode ? "drop-shadow(0 10px 22px rgba(0,0,0,0.35))" : "drop-shadow(0 10px 22px rgba(0,0,0,0.20))",
-                }}
-              />
-            </Box>
+            
 
-            <Typography sx={{ textAlign: "center", mt: 1.2, fontSize: 11.5, opacity: 0.75, color: cardMuted }}>
+            <Typography sx={{ textAlign: "center", mt: 1, fontSize: 11, opacity: 0.65, color: cardMuted }}>
               © {new Date().getFullYear()} Dali Data Portal
             </Typography>
 
-            <Divider sx={{ borderColor: isDarkMode ? "rgba(255,255,255,0.10)" : "rgba(15,23,42,0.10)", my: 1 }} />
+            <Divider sx={{ borderColor: isDarkMode ? "rgba(255,255,255,0.10)" : "rgba(15,23,42,0.08)", my: 1 }} />
 
-            <Typography sx={{ fontSize: 10.5, fontWeight: 800, color: cardMuted, textTransform: "uppercase", mb: 0.4, letterSpacing: "0.5px" }}>
+            <Typography sx={{ fontSize: 10.5, fontWeight: 800, color: cardMuted, textTransform: "uppercase", mb: 0.5, letterSpacing: "0.5px" }}>
               Demo Credentials
             </Typography>
 
@@ -318,22 +444,22 @@ export default function LoginPage() {
                   key={email}
                   onClick={() => setForm({ email, password: "demo123", remember: true })}
                   sx={{
-                    px: 1.1,
-                    py: 0.6,
-                    borderRadius: 2,
-                    cursor: "pointer",
-                    fontSize: 11.5,
-                    fontWeight: 800,
-                    color: cardText,
+                    px:              1.1,
+                    py:              0.6,
+                    borderRadius:    2,
+                    cursor:          "pointer",
+                    fontSize:        11.5,
+                    fontWeight:      800,
+                    color:           cardText,
                     backgroundColor: isDarkMode ? "rgba(255,255,255,0.06)" : "rgba(2,6,23,0.04)",
-                    border: isDarkMode ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(15,23,42,0.10)",
-                    transition: "all 0.2s ease",
-                    opacity: 0,
-                    animation: "fadeUp 0.6s ease forwards",
-                    animationDelay: `${0.30 + i * 0.04}s`,
+                    border:          isDarkMode ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(15,23,42,0.10)",
+                    transition:      "all 0.2s ease",
+                    opacity:         0,
+                    animation:       "fadeUp 0.6s ease forwards",
+                    animationDelay:  `${0.34 + i * 0.04}s`,
                     "&:hover": {
-                      transform: "translateY(-1px)",
-                      borderColor: "rgba(97,197,195,0.60)",
+                      transform:       "translateY(-1px)",
+                      borderColor:     "rgba(97,197,195,0.60)",
                       backgroundColor: isDarkMode ? "rgba(97,197,195,0.14)" : "rgba(97,197,195,0.10)",
                     },
                   }}
@@ -348,8 +474,8 @@ export default function LoginPage() {
               Password: <b>demo123</b> (for all demo accounts)
             </Typography>
           </Box>
-        </Paper>
-      </Box>
+        </Box>
+      </Paper>
     </Box>
   );
 }

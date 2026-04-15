@@ -106,7 +106,7 @@ export default function NavBar() {
     { label: "Project", path: "/public/project", icon: FolderOpen },
     { label: "Funds", path: "/public/funds", icon: Wallet },
     { label: "Trade", path: "/public/trade", icon: Globe },
-    { label: "Analysis", path: "/public/analysis", icon: BarChart3 },
+    { label: "Reports", path: "/public/analysis", icon: BarChart3 },
     { label: "Subscription", path: "/public/subscription", icon: CreditCard, highlighted: true },
   ];
 

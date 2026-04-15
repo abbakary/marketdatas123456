@@ -61,7 +61,7 @@ export const mockViewHistory = [
   { id: '5', datasetId: '8', datasetTitle: 'Genomics Research Data', viewedAt: new Date('2024-11-05') },
 ];
 
-// ─── Project Request / Bid mock data ────────────────────────────────────────
+// ─── Project Request / Request mock data ────────────────────────────────────────
 
 export const mockCollaborators = [
   { id: 'c1', name: 'Dr. Aisha Patel', avatar: 'https://i.pravatar.cc/40?img=47', skills: ['AI', 'ML', 'Python'], rating: 4.9, projects: 34, category: 'Computer Science' },

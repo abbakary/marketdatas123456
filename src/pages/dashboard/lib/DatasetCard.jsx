@@ -83,15 +83,15 @@ export function DatasetCard({ dataset, onAction, actionLabel, actionStyle, showS
         </div>
 
         {/* File Details Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 16, paddingBottom: 16, borderBottom: `1px solid ${themeColors.border}` }}>
+        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 16, paddingBottom: 16, borderBottom: `1px solid ${themeColors.border}` }}>
           {[
             { icon: <FileIcon size={16} color={SECONDARY} />, label: dataset.files },
             { icon: <HardDrive size={16} color={SECONDARY} />, label: dataset.size },
             { icon: <Download size={16} color={SECONDARY} />, label: dataset.downloads },
           ].map((item, i) => (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, padding: '8px 4px', borderRadius: 10, background: themeColors.hoverBg, transition: 'background 0.2s' }}>
+            <div key={i} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 4, padding: '8px 12px', borderRadius: 10, background: themeColors.hoverBg, transition: 'background 0.2s', flex: 1, justifyContent: 'center' }}>
               {item.icon}
-              <span style={{ fontSize: 10, color: themeColors.textMuted, fontWeight: 600, textAlign: 'center', lineHeight: 1.3 }}>{item.label}</span>
+              <span style={{ fontSize: 10, color: themeColors.textMuted, fontWeight: 600, whiteSpace: 'nowrap' }}>{item.label}</span>
             </div>
           ))}
         </div>
